@@ -21,9 +21,11 @@ package org.apache.flink.connector.jdbc.internal.connection;
 import org.apache.flink.connector.jdbc.JdbcConnectionOptions;
 import org.apache.flink.connector.jdbc.fakedb.FakeDBUtils;
 import org.apache.flink.core.testutils.CheckedThread;
+import org.apache.flink.test.junit5.MiniClusterExtension;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -37,6 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * This test deals with sql driver class loading issues; run as an ITCase so it won't be interfered
  * with by other tests.
  */
+@ExtendWith(MiniClusterExtension.class)
 class SimpleJdbcConnectionProviderDriverClassConcurrentLoadingITCase {
     private static boolean isClassLoaded(ClassLoader classLoader, String className)
             throws Exception {
