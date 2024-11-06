@@ -73,7 +73,7 @@ public class PostgresDialectConverter extends AbstractDialectConverter {
         }
     }
 
-    private JdbcDeserializationConverter createPostgresArrayConverter(ArrayType arrayType) {
+    protected JdbcDeserializationConverter createPostgresArrayConverter(ArrayType arrayType) {
         // Since PGJDBC 42.2.15 (https://github.com/pgjdbc/pgjdbc/pull/1194) bytea[] is wrapped in
         // primitive byte arrays
         final Class<?> elementClass =

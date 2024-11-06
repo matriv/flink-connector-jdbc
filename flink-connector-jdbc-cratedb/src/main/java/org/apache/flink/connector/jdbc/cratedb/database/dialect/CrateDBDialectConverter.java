@@ -20,6 +20,9 @@ package org.apache.flink.connector.jdbc.cratedb.database.dialect;
 
 import org.apache.flink.annotation.Internal;
 import org.apache.flink.connector.jdbc.postgres.database.dialect.CompatiblePostgresDialectConverter;
+import org.apache.flink.table.types.logical.ArrayType;
+import org.apache.flink.table.types.logical.LogicalType;
+import org.apache.flink.table.types.logical.LogicalTypeRoot;
 import org.apache.flink.table.types.logical.RowType;
 
 /**
@@ -38,5 +41,17 @@ public class CrateDBDialectConverter extends CompatiblePostgresDialectConverter 
     @Override
     public String compatibleConverterName() {
         return "CrateDB";
+    }
+
+    @Override
+    public JdbcDeserializationConverter createInternalConverter(LogicalType type) {
+        LogicalTypeRoot root = type.getTypeRoot();
+
+        if (root == LogicalTypeRoot.ARRAY) {
+            ArrayType arrayType = (ArrayType) type;
+            return createPostgresArrayConverter(arrayType);
+        } else {
+            return buildInternalConverter(type);
+        }
     }
 }

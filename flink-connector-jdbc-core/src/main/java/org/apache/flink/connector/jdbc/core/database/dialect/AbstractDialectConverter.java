@@ -130,6 +130,10 @@ public abstract class AbstractDialectConverter implements JdbcDialectConverter {
     }
 
     protected JdbcDeserializationConverter createInternalConverter(LogicalType type) {
+        return buildInternalConverter(type);
+    }
+
+    public static JdbcDeserializationConverter buildInternalConverter(LogicalType type) {
         switch (type.getTypeRoot()) {
             case NULL:
                 return val -> null;
